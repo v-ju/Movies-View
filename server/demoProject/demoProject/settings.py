@@ -120,7 +120,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # for Vite dev server
+]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://movies-view-eta.vercel.app",
@@ -131,6 +133,6 @@ logger = logging.getLogger(__name__)
 try:
     connection = connections['default']
     connection.cursor()  # forces connection
-    print(f"onnected to database: {connection.settings_dict['NAME']}")
+    print(f"Connected to database: {connection.settings_dict['NAME']}")
 except OperationalError as e:
     print("Database connection failed:", e)

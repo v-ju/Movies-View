@@ -4,9 +4,9 @@ import {Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement,
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title,Tooltip,Legend);
 
-const Input = ({open, onClose, savedMovie}) => {
-    if(!open)return null
-const [chartData, setChartData] = useState({});
+const ChartModal = ({open, onClose, savedMovie}) => {
+  
+  const [chartData, setChartData] = useState({});
 
   useEffect(() => {
     if (!Array.isArray(savedMovie) || !savedMovie.length) return;
@@ -35,22 +35,28 @@ const [chartData, setChartData] = useState({});
       title: { display: true, text: "Movie Ratings (from DB)" },
     },
   };
-
+  if (!open) return null;
   if (!chartData.labels) return null;
 
-    return (<>
-    <div className="fixed top-0 bottom-0 left-0 right-0 bg-black/50"/>
-    <div className="w-100 h-70 bg-white fixed top-1/5 left-2/5 z-1000"> 
-        <div className="relative flex flex-col ">
+    return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+      <div className="relative bg-white rounded-xl p-6 w-[600px] shadow-xl">
+        {chartData ? (
+          <Line data={chartData} />
+        ) : (
+          <p className="text-center text-gray-600">Loading chart...</p>
+        )}
 
-            <Line data={chartData} options={options}/>
-
-            <button onClick={onClose} >
-                <img src="/close.svg" className="absolute right-2 top-2 cursor-pointer"/>
-            </button> 
-        </div>    
-    </div>    
-    </>)
+        <button onClick={onClose}>
+          <img
+            src="/close.svg"
+            alt="Close"
+            className="absolute right-2 top-2 cursor-pointer w-6 h-6"
+          />
+        </button>
+      </div>
+    </div>
+  );
 }
 
-export default Input
+export default ChartModal

@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { getGreeting } from "../controllers/helper"
 import { api } from "../controllers/helper"
 import CardComponent from "../component/CardComponent"
-import Input from "../component/Input"
 import Spinner from "../component/Spinner"
+import ChartModal from "../component/ChartModal"
 
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
   const endIndex = (pageContent.length / 2)
   const [listingMode, setListingMode] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     const fetchedMovies = async() => {
@@ -43,22 +44,17 @@ function App() {
     }  
     moviesInDB()
     console.log(savedMovie)
-  },[savedMovie])
+  },[refreshKey])
 
-
-
-  const handleListCreation = () => {
-    setListingMode(true)
-  }
   if (loading){
     return <Spinner/>
   }
-
-
+  
+  
   return (<div className="flex">
 
     <div className="text-white p-2 "> 
-      <button className="border-0 rounded-2xl bg-white/20 p-2 cursor-pointer mb-3" onClick={handleListCreation}>Create List
+      <button className="border-0 rounded-2xl bg-white/20 p-2 cursor-pointer mb-3" onClick={() => setListingMode(true) }>Create List
       </button>
     </div>
 
@@ -72,14 +68,14 @@ function App() {
         <div className="text-amber-50 grid grid-cols-5 grid-rows-2 gap-3">
           {
             pageContent.slice(startIndex, endIndex).map(card => (
-              <CardComponent key={card.id} savedIds={savedIds} setSavedIds={setSavedIds} payload={card} imgPath={`https://image.tmdb.org/t/p/w500/${card.poster_path}`} title={card.original_title} date={card.release_date} description={card.overview} rating={card.vote_average}/>
+              <CardComponent key={card.id} savedIds={savedIds} setSavedIds={setSavedIds} payload={card} imgPath={`https://image.tmdb.org/t/p/w500/${card.poster_path}`} title={card.original_title} date={card.release_date} description={card.overview} rating={card.vote_average} setRefreshKey={setRefreshKey}/>
             ))
           }
         </div> 
 
-        <div className="  ">
-          <Input open={listingMode} onClose={() => setListingMode(false)} savedMovie={savedMovie}/>
-        </div>
+        
+        <ChartModal open={listingMode} onClose={() => setListingMode(false)} savedMovie={savedMovie}/>
+        
 
         <div className=" absolute mx-auto left-80 bottom-10">
           

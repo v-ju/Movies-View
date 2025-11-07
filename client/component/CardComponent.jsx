@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { api } from "../controllers/helper"
-const CardComponent = ({imgPath, title, description, date, rating, payload,savedIds,setSavedIds}) => {
+
+const CardComponent = ({imgPath, title, description, date, rating, payload,savedIds,setSavedIds,setRefreshKey}) => {
   const [expand, setExpand] = useState(false)
 
   const handleText = () => {
@@ -55,6 +56,7 @@ const CardComponent = ({imgPath, title, description, date, rating, payload,saved
         return newSet;
       });
 
+      setRefreshKey(prev => prev + 1)
       if (res.status === 201) {
         setStatusMsg("Added to DB");
       } else if (res.status === 200) {
@@ -80,6 +82,8 @@ const CardComponent = ({imgPath, title, description, date, rating, payload,saved
         newSet.delete(data.id);
         return newSet;
       });
+
+      setRefreshKey(prev => prev + 1)
     }catch(err){
       console.log("message",err.message)
     }
@@ -96,7 +100,7 @@ const CardComponent = ({imgPath, title, description, date, rating, payload,saved
         </div>
         <div className="text-white text-sm">{handleText()}</div>
         <br></br>
-        <div className="absolute bottom-2 text-base">Rating: <span    className="text-sm text-amber-300">{rating.toFixed(2)}</span>      
+        <div className="absolute bottom-2 text-base">Rating: <span className="text-sm text-amber-300">{rating.toFixed(2)}</span>      
         </div>
         <span className="absolute right-10 bottom-3 text-xs">{statusMsg}</span>
         <button className=" absolute bottom-2 right-3 cursor-pointer" onClick={isSaved ? () => handleRemove(payload) : () => handleAdd(payload)}>
