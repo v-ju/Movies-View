@@ -121,11 +121,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # for Vite dev server
+    "http://localhost:5173", 
+    "https://movies-view-eta.vercel.app" 
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://movies-view-eta.vercel.app",
+    "https://movies-view-prs8.onrender.com",
 ]
 
 logger = logging.getLogger(__name__)
