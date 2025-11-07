@@ -4,6 +4,7 @@ import dj_database_url
 from django.db import connections
 from django.db.utils import OperationalError
 import logging
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,7 +15,12 @@ SECRET_KEY = 'django-insecure-+n*h)nn7oj5r$37en6!eu%1-fv^!#g#g4hn00pp^rn96614^p*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    os.getenv("RENDER_EXTERNAL_HOSTNAME"),  # Render automatically sets this
+    "movies-view-prs8.onrender.com"
+]
 
 
 # Application definition
