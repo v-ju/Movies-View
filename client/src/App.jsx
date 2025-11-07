@@ -54,7 +54,7 @@ function App() {
   return (<div className="flex">
 
     <div className="text-white p-2 "> 
-      <button className="border-0 rounded-2xl bg-white/20 p-2 cursor-pointer mb-3" onClick={() => setListingMode(true) }>Create List
+      <button className="border-0 rounded-2xl bg-white/20 p-2 cursor-pointer mb-3" onClick={() => setListingMode(true) }>Graph View
       </button>
     </div>
 
